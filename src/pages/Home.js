@@ -5,7 +5,7 @@ import Header from "../components/Header";
 const Home = () => {
   return (
     <>
-      <Header />
+      <Header active='home' />
 
       <section className='section-slide'>
         <div className='wrap-slick1'>

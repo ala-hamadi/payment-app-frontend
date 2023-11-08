@@ -5,7 +5,7 @@ import Header from "../components/Header";
 const Search = () => {
   return (
     <>
-      <Header />
+      <Header active='search' />
 
       <div className='bg0 m-t-23 p-b-140'>
         <div className='container'>
