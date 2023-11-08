@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Payment from "./pages/Payment";
 import Search from "./pages/Search";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
