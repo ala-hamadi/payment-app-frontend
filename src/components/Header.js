@@ -127,7 +127,7 @@ const Header = (props) => {
           </div>
         </div>
       </div>
-      <header className='header-v4'>
+      <header className='header-v4' style={{ height: 0 }}>
         <div className='container-menu-desktop'>
           <div className='wrap-menu-desktop how-shadow1' style={{ top: "0px" }}>
             <nav className='limiter-menu-desktop container'>

@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import productImg from "../assets/images/product.jpg";
 
 const Search = () => {
   return (
@@ -43,7 +44,7 @@ const Search = () => {
             <div className='col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women'>
               <div className='block2'>
                 <div className='block2-pic hov-img0'>
-                  <img src='../assets/images/product.jpg' alt='IMG-PRODUCT' />
+                  <img src={productImg} alt='IMG-PRODUCT' />
                   <a
                     href='#'
                     className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
