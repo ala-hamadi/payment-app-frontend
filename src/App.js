@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Payment from "./pages/Payment";
 import Search from "./pages/Search";
 
 function App() {
@@ -23,6 +24,15 @@ function App() {
           element={
             <Suspense>
               <Search />
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path='/payment'
+          element={
+            <Suspense>
+              <Payment />
             </Suspense>
           }
         />
