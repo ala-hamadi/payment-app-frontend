@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Payment from "./pages/Payment";
 import Search from "./pages/Search";
 import "react-toastify/dist/ReactToastify.css";
+import Authentication from "./pages/Authentication";
 
 function App() {
   return (
@@ -34,6 +35,15 @@ function App() {
           element={
             <Suspense>
               <Payment />
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path='/join-us'
+          element={
+            <Suspense>
+              <Authentication />
             </Suspense>
           }
         />
