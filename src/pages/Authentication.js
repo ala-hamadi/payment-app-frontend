@@ -5,7 +5,11 @@ import "./Authentication.css";
 import { ToastContainer, toast } from "react-toastify";
 import { notify } from "../utils/HelperFunctions";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login, logout } from "../redux/userSlice";
 const Authentication = () => {
+  const dispatch = useDispatch();
+
   const [clickedSubmit, setClickedSubmit] = useState(0);
 
   const [userName, setUsername] = useState({
@@ -146,14 +150,32 @@ const Authentication = () => {
         email: email.value.toLowerCase().trim(),
         password: password.value,
       };
-      axios.post("/public/signin", user).then((res) => {
-        if (res.data !== "NOT_FOUND" && res.data !== "BAD_REQUEST") {
+      axios
+        .post("/public/signin", user)
+        .then((res) => {
           console.log(res.data);
-          //window.location.href = "/";
-        } else if (res.data === "NOT_FOUND") {
-          notify("The user does not exist.", toast, "info");
-        }
-      });
+          if (res.data !== "NOT_FOUND" && res.data !== "BAD_REQUEST") {
+            const authToken = `Bearer ${res.data.accessToken}`;
+            localStorage.setItem("authToken", authToken);
+            axios.defaults.headers.common["Authorization"] = authToken;
+            dispatch(
+              login({
+                id: res.data.id,
+                username: res.data.username,
+                email: res.data.email,
+              })
+            );
+            window.location.href = "/";
+          } else if (res.data === "NOT_FOUND") {
+            notify("The user does not exist.", toast, "info");
+          }
+        })
+        .catch(() => {
+          notify("Password incorrect", toast, "error");
+          localStorage.removeItem("authToken");
+          delete axios.defaults.headers.common["Authorization"];
+          dispatch(logout());
+        });
     } else {
       notify(
         "Check your email or password (at least 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number).",

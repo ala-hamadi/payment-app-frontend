@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { notify } from "../utils/HelperFunctions";
 import productImg from "../assets/images/product.jpg";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/userSlice";
 const Header = (props) => {
+  const user = useSelector(selectUser);
+  console.log(user);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
 
