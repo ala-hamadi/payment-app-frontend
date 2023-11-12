@@ -6,6 +6,8 @@ import Payment from "./pages/Payment";
 import Search from "./pages/Search";
 import "react-toastify/dist/ReactToastify.css";
 import Authentication from "./pages/Authentication";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
   return (

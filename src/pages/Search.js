@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import productImg from "../assets/images/product.jpg";
+import axios from "axios";
 
 const Search = () => {
+  const [allProducts, setAllProducts] = useState([]);
+  const [seeMore, setSeeMore] = useState(8);
+
+  const handleSeeMore = () => {
+    setSeeMore((prevState) => prevState + 8);
+  };
+  useEffect(() => {
+    axios.get("/public/getAllProducts").then((res) => {
+      console.log(res.data);
+      setAllProducts(res.data);
+    });
+  }, []);
   return (
     <>
       <Header active='search' />
@@ -44,35 +57,46 @@ const Search = () => {
             </div>
           </div>
           <div className='row isotope-grid'>
-            <div className='col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women'>
-              <div className='block2'>
-                <div className='block2-pic hov-img0'>
-                  <img src={productImg} alt='IMG-PRODUCT' />
-                  <a
-                    href='#'
-                    className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
+            {allProducts &&
+              allProducts?.slice(0, seeMore)?.map((product, index) => {
+                return (
+                  <div
+                    className='col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women'
+                    key={index}
                   >
-                    Add to cart
-                  </a>
-                </div>
-                <div className='block2-txt flex-w flex-t p-t-14'>
-                  <div className='block2-txt-child1 flex-col-l'>
-                    <a
-                      href='product-detail.html'
-                      className='stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6'
-                    >
-                      Esprit Ruffle Shirt
-                    </a>
-                    <span className='stext-105 cl3'> $16.64 </span>
+                    <div className='block2'>
+                      <div className='block2-pic hov-img0'>
+                        <img src={productImg} alt='IMG-PRODUCT' />
+                        <a
+                          href='#'
+                          className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
+                        >
+                          Add to cart
+                        </a>
+                      </div>
+                      <div className='block2-txt flex-w flex-t p-t-14'>
+                        <div className='block2-txt-child1 flex-col-l'>
+                          <a
+                            href='product-detail.html'
+                            className='stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6'
+                          >
+                            {product.name}
+                          </a>
+                          <span className='stext-105 cl3'>
+                            {" "}
+                            {product.price}{" "}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                );
+              })}
           </div>
           <div className='flex-c-m flex-w w-full p-t-45'>
             <a
-              href='#'
               className='flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04'
+              onClick={handleSeeMore}
             >
               Load More
             </a>
