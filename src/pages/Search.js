@@ -6,7 +6,11 @@ import axios from "axios";
 
 const Search = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const [allProductsHack, setAllProductsHack] = useState([]);
+  const [search, setSearch] = useState("");
+
   const [seeMore, setSeeMore] = useState(8);
+  const [isOpenSearch, setIsOpenSearch] = useState(false);
 
   const handleSeeMore = () => {
     setSeeMore((prevState) => prevState + 8);
@@ -15,8 +19,24 @@ const Search = () => {
     axios.get("/public/getAllProducts").then((res) => {
       console.log(res.data);
       setAllProducts(res.data);
+      setAllProductsHack(res.data);
     });
   }, []);
+  const openSearchbar = () => {
+    setIsOpenSearch(!isOpenSearch);
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    setAllProducts(
+      allProductsHack.filter((element) => {
+        return (
+          element.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
+          -1
+        );
+      })
+    );
+  };
   return (
     <>
       <Header active='search' />
@@ -36,13 +56,22 @@ const Search = () => {
               </button>
             </div>
             <div className='flex-w flex-c-m m-tb-10'>
-              <div className='flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search'>
-                <i className='icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search' />
-                <i className='icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none' />
+              <div
+                className='flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search'
+                onClick={openSearchbar}
+              >
+                {!isOpenSearch ? (
+                  <i className='icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search' />
+                ) : (
+                  <i className='icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none' />
+                )}
                 Search
               </div>
             </div>
-            <div className='dis-none panel-search w-full p-t-10 p-b-15'>
+            <div
+              className='dis-none panel-search w-full p-t-10 p-b-15'
+              style={{ display: isOpenSearch ? "block" : "none" }}
+            >
               <div className='bor8 dis-flex p-l-15'>
                 <button className='size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04'>
                   <i className='zmdi zmdi-search' />
@@ -52,6 +81,8 @@ const Search = () => {
                   type='text'
                   name='search-product'
                   placeholder='Search'
+                  value={search}
+                  onChange={handleSearch}
                 />
               </div>
             </div>
