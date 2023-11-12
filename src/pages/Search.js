@@ -3,8 +3,15 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import productImg from "../assets/images/product.jpg";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCart, selectUser } from "../redux/userSlice";
+import { notify } from "../utils/HelperFunctions";
+import { ToastContainer, toast } from "react-toastify";
 
 const Search = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
   const [allProducts, setAllProducts] = useState([]);
   const [allProductsHack, setAllProductsHack] = useState([]);
   const [search, setSearch] = useState("");
@@ -37,8 +44,32 @@ const Search = () => {
       })
     );
   };
+  const handleAddToCart = (product) => {
+    if (user)
+      axios
+        .post(`/public/addProductToCart/${user.id}/${product.id}`)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data) {
+            dispatch(updateCart(res.data));
+            notify(
+              "this product has been added to your cart.",
+              toast,
+              "success"
+            );
+          } else
+            notify("This product already added to your cart.", toast, "info");
+        });
+    else
+      notify(
+        "You should signin before you add product to the cart",
+        toast,
+        "info"
+      );
+  };
   return (
     <>
+      <ToastContainer />
       <Header active='search' />
 
       <div className='bg0 m-t-23 p-b-140'>
@@ -98,12 +129,12 @@ const Search = () => {
                     <div className='block2'>
                       <div className='block2-pic hov-img0'>
                         <img src={productImg} alt='IMG-PRODUCT' />
-                        <a
-                          href='#'
+                        <button
                           className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
+                          onClick={() => handleAddToCart(product)}
                         >
                           Add to cart
-                        </a>
+                        </button>
                       </div>
                       <div className='block2-txt flex-w flex-t p-t-14'>
                         <div className='block2-txt-child1 flex-col-l'>

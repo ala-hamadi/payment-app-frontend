@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { notify } from "../utils/HelperFunctions";
 import productImg from "../assets/images/product.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../redux/userSlice";
+import { logout, selectUser, updateCart } from "../redux/userSlice";
 import axios from "axios";
 const Header = (props) => {
   const dispatch = useDispatch();
-
   const user = useSelector(selectUser);
+
   console.log(user);
+
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenLogout, setIsOpenLogout] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const info = () => {
     notify("Not required for our technical test 😜", toast, "info");
@@ -35,6 +37,31 @@ const Header = (props) => {
     delete axios.defaults.headers.common["Authorization"];
     dispatch(logout());
   };
+
+  const handleRemoveProductFromCart = (product) => {
+    axios
+      .put(`/public/removeProductFromCart/${user.id}/${product.id}`)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          dispatch(updateCart(res.data));
+          notify(
+            "this product has been removed from your cart.",
+            toast,
+            "info"
+          );
+        }
+      });
+  };
+  useEffect(() => {
+    if (user) {
+      let total = 0;
+      user?.cart.forEach((product) => {
+        total += product.price;
+      });
+      setTotalPrice(total);
+    }
+  }, [user]);
 
   return (
     <>
@@ -61,25 +88,39 @@ const Header = (props) => {
             className='header-cart-content flex-w js-pscroll ps'
             style={{ position: "relative", overflow: "hidden" }}
           >
+            {console.log(user?.cart)}
             <ul className='header-cart-wrapitem w-full'>
-              <li className='header-cart-item flex-w flex-t m-b-12'>
-                <div className='header-cart-item-img'>
-                  <img src={productImg} alt='IMG' />
-                </div>
-                <div className='header-cart-item-txt p-t-8'>
-                  <a
-                    href='#'
-                    className='header-cart-item-name m-b-18 hov-cl1 trans-04'
-                  >
-                    White Shirt Pleat
-                  </a>
-                  <span className='header-cart-item-info'>1 x $19.00</span>
-                </div>
-              </li>
+              {user &&
+                user?.cart?.map((product, index) => {
+                  return (
+                    <li className='header-cart-item flex-w flex-t m-b-12'>
+                      <div className='header-cart-item-img'>
+                        <img src={productImg} alt='IMG' />
+                      </div>
+                      <div className='header-cart-item-txt p-t-8'>
+                        <span
+                          href='#'
+                          className='header-cart-item-name m-b-18 hov-cl1 trans-04'
+                        >
+                          {product.name}
+                          <span
+                            className='fs-20 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart'
+                            onClick={() => handleRemoveProductFromCart(product)}
+                          >
+                            <i className='zmdi zmdi-close' />
+                          </span>
+                        </span>
+                        <span className='header-cart-item-info'>
+                          {product.price}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
             </ul>
             <div className='w-full'>
               <div className='header-cart-total w-full p-tb-40'>
-                Total: $75.00
+                Total: ${totalPrice}
               </div>
               <div className='header-cart-buttons flex-w w-full'>
                 <Link
@@ -150,7 +191,7 @@ const Header = (props) => {
               <div className='wrap-icon-header flex-w flex-r-m'>
                 <div
                   className='icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart'
-                  data-notify={2}
+                  data-notify={user ? user?.cart?.length : 0}
                   onClick={openCart}
                 >
                   <i className='zmdi zmdi-shopping-cart' />

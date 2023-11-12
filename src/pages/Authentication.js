@@ -163,6 +163,7 @@ const Authentication = () => {
                 id: res.data.id,
                 username: res.data.username,
                 email: res.data.email,
+                cart: res.data.cart,
               })
             );
             setTimeout(() => {

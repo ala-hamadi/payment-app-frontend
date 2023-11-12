@@ -151,12 +151,6 @@ const Home = () => {
                     <div className='block2'>
                       <div className='block2-pic hov-img0'>
                         <img src={productImg} alt='IMG-PRODUCT' />
-                        <a
-                          href='#'
-                          className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
-                        >
-                          Add to cart
-                        </a>
                       </div>
                       <div className='block2-txt flex-w flex-t p-t-14'>
                         <div className='block2-txt-child1 flex-col-l'>

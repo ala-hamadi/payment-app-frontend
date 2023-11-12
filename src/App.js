@@ -10,6 +10,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
 import { login, logout } from "./redux/userSlice";
+
 axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
               id: res.data.id,
               username: res.data.username,
               email: res.data.email,
+              cart: res.data.cart,
             })
           );
         });
