@@ -13,7 +13,7 @@ const Home = () => {
     <>
       <Header active='home' />
 
-      <section className='section-slide'>
+      <section className='section-slide' style={{ marginTop: "70px" }}>
         <div className='wrap-slick1'>
           <div className='slick1'>
             <div
