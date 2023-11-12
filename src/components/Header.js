@@ -54,9 +54,9 @@ const Header = (props) => {
       });
   };
   useEffect(() => {
-    if (user) {
+    if (user?.cart) {
       let total = 0;
-      user?.cart.forEach((product) => {
+      user?.cart?.forEach((product) => {
         total += product.price;
       });
       setTotalPrice(total);

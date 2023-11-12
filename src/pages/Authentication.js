@@ -187,6 +187,7 @@ const Authentication = () => {
       );
     }
   };
+
   return (
     <>
       <ToastContainer />
