@@ -165,7 +165,9 @@ const Authentication = () => {
                 email: res.data.email,
               })
             );
-            window.location.href = "/";
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
           } else if (res.data === "NOT_FOUND") {
             notify("The user does not exist.", toast, "info");
           }

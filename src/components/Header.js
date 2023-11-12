@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { notify } from "../utils/HelperFunctions";
 import productImg from "../assets/images/product.jpg";
-import { useSelector } from "react-redux";
-import { selectUser } from "../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../redux/userSlice";
+import axios from "axios";
 const Header = (props) => {
+  const dispatch = useDispatch();
+
   const user = useSelector(selectUser);
   console.log(user);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
+  const [isOpenLogout, setIsOpenLogout] = useState(false);
 
   const info = () => {
     notify("Not required for our technical test 😜", toast, "info");
@@ -23,6 +27,15 @@ const Header = (props) => {
   const closeCart = () => {
     setIsOpenCart(false);
   };
+  const toogleOpenLogout = () => {
+    setIsOpenLogout(!isOpenLogout);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    delete axios.defaults.headers.common["Authorization"];
+    dispatch(logout());
+  };
+
   return (
     <>
       <ToastContainer />
@@ -150,6 +163,45 @@ const Header = (props) => {
                 >
                   <i className='zmdi zmdi-favorite-outline' />
                 </a>
+
+                <div
+                  className='icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart'
+                  onClick={toogleOpenLogout}
+                >
+                  <i
+                    className={
+                      user ? "zmdi zmdi-account" : "zmdi zmdi-account-add"
+                    }
+                  />
+                </div>
+
+                <ul
+                  className='sub-menu'
+                  style={{
+                    visibility: isOpenLogout ? "visible" : "hidden",
+                    opacity: isOpenLogout ? 1 : 0,
+                    top: "100%",
+                    left: "80%",
+                  }}
+                >
+                  {user ? (
+                    <li>
+                      <a
+                        href='#'
+                        onClick={() => {
+                          handleLogout(dispatch);
+                          window.location.href = "/";
+                        }}
+                      >
+                        Logout
+                      </a>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link to='/join-us'>Login</Link>
+                    </li>
+                  )}
+                </ul>
               </div>
             </nav>
           </div>
