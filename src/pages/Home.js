@@ -14,7 +14,6 @@ const Home = () => {
 
   useEffect(() => {
     axios.get("/public/getAllProducts").then((res) => {
-      console.log(res.data);
       setAllProducts(res.data);
     });
   }, []);

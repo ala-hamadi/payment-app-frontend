@@ -153,7 +153,6 @@ const Authentication = () => {
       axios
         .post("/public/signin", user)
         .then((res) => {
-          console.log(res.data);
           if (res.data !== "NOT_FOUND" && res.data !== "BAD_REQUEST") {
             const authToken = `Bearer ${res.data.accessToken}`;
             localStorage.setItem("authToken", authToken);

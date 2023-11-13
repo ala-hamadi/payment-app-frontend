@@ -19,10 +19,8 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.authToken;
-    console.log(token);
     if (token) {
       const decodeToken = jwtDecode(token);
-      console.log(decodeToken);
       if (decodeToken.exp * 1000 > Date.now()) {
         axios.get(`/public/getUserByEmail/${decodeToken.sub}`).then((res) => {
           dispatch(

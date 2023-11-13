@@ -10,8 +10,6 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
-  console.log(user);
-
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenLogout, setIsOpenLogout] = useState(false);
@@ -42,7 +40,6 @@ const Header = (props) => {
     axios
       .put(`/public/removeProductFromCart/${user.id}/${product.id}`)
       .then((res) => {
-        console.log(res.data);
         if (res.data) {
           dispatch(updateCart(res.data));
           notify(
@@ -94,7 +91,6 @@ const Header = (props) => {
             className='header-cart-content flex-w js-pscroll ps'
             style={{ position: "relative", overflow: "hidden" }}
           >
-            {console.log(user?.cart)}
             <ul className='header-cart-wrapitem w-full'>
               {user &&
                 user?.cart?.map((product, index) => {

@@ -93,7 +93,6 @@ const Payment = () => {
           notify("Your payment has been registered.", toast, "success");
         }
         axios.put("/public/decreaseQuantityInProducts", cart).then(() => {
-          console.log("Updated");
           axios.put(`/public/removeAllProductsFromCart/${user.id}`).then(() => {
             setCart([]);
             const updatedUser = { ...user, cart: [] };

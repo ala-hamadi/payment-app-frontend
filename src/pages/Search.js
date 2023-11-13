@@ -24,7 +24,6 @@ const Search = () => {
   };
   useEffect(() => {
     axios.get("/public/getAllProducts").then((res) => {
-      console.log(res.data);
       setAllProducts(res.data);
       setAllProductsHack(res.data);
     });
@@ -49,7 +48,6 @@ const Search = () => {
       axios
         .post(`/public/addProductToCart/${user.id}/${product.id}`)
         .then((res) => {
-          console.log(res.data);
           if (res.data) {
             dispatch(updateCart(res.data));
             notify(
