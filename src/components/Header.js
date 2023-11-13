@@ -238,6 +238,9 @@ const Header = (props) => {
                         <a href='#'>Hi, {user.username} 👋</a>
                       </li>
                       <li>
+                        <Link to='/my-orders'>My orders</Link>
+                      </li>
+                      <li>
                         <a
                           href='#'
                           onClick={() => {
@@ -270,12 +273,14 @@ const Header = (props) => {
             </Link>
           </div>
           <div className='wrap-icon-header flex-w flex-r-m m-r-15'>
-            <div
-              className='icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart'
-              data-notify={2}
-            >
-              <i className='zmdi zmdi-shopping-cart' />
-            </div>
+            <Link to='/payment'>
+              <div
+                className='icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart'
+                data-notify={user ? user?.cart?.length : 0}
+              >
+                <i className='zmdi zmdi-shopping-cart' />
+              </div>
+            </Link>
             <a
               href='#'
               className='dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti'

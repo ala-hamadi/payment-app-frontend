@@ -10,6 +10,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
 import { login, logout } from "./redux/userSlice";
+import Order from "./pages/Order";
 
 axios.defaults.baseURL = "http://localhost:8080";
 
@@ -77,6 +78,15 @@ function App() {
           element={
             <Suspense>
               <Authentication />
+            </Suspense>
+          }
+        />
+        <Route
+          exact
+          path='/my-orders'
+          element={
+            <Suspense>
+              <Order />
             </Suspense>
           }
         />
