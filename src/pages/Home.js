@@ -33,7 +33,7 @@ const Home = () => {
                 <div className='flex-col-l-m h-full p-t-100 p-b-30 respon5'>
                   <div className='layer-slick1 animated visible'>
                     <span className='ltext-101 cl2 respon2'>
-                      Women Collection 2018
+                      Men Collection 2023
                     </span>
                   </div>
                   <div className='layer-slick1 animated visible'>
@@ -74,7 +74,7 @@ const Home = () => {
                       Women
                     </span>
                     <span className='block1-info stext-102 trans-04'>
-                      Spring 2018
+                      Spring 2023
                     </span>
                   </div>
                   <div className='block1-txt-child2 p-b-4 trans-05'>
@@ -97,7 +97,7 @@ const Home = () => {
                       Men
                     </span>
                     <span className='block1-info stext-102 trans-04'>
-                      Spring 2018
+                      Spring 2023
                     </span>
                   </div>
                   <div className='block1-txt-child2 p-b-4 trans-05'>
