@@ -226,7 +226,7 @@ const Authentication = () => {
               />
               <input
                 type='password'
-                placeholder='Confirme Password'
+                placeholder='Confirm Password'
                 value={confirmPassword.value}
                 onChange={handleChangeConfirmPassword}
               />
