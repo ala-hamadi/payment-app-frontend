@@ -86,7 +86,6 @@ const Payment = () => {
         email: user.email,
       },
     };
-    console.log(payment);
     axios
       .post("/public/addPayment", payment)
       .then((res) => {
@@ -204,6 +203,11 @@ const Payment = () => {
                 >
                   Proceed to Checkout
                 </button>
+                <Link to='/my-orders'>
+                  <button className='flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer m-t-22'>
+                    Check my orders
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

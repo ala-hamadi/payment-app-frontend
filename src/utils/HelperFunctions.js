@@ -12,3 +12,8 @@ export const notify = (message, toast, type) => {
   else if (type === "info") toast.info(message, toastMessageOptions);
   else if (type === "error") toast.error(message, toastMessageOptions);
 };
+export const timestampToStringDate = (date) => {
+  //from timestamp to dd/mm/yyyy
+  if (date)
+    return date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
+};
