@@ -142,11 +142,15 @@ const Search = () => {
                             href='product-detail.html'
                             className='stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6'
                           >
-                            {product.name}
+                            Name: {product.name}
                           </a>
                           <span className='stext-105 cl3'>
                             {" "}
-                            {product.price}{" "}
+                            Price: {product.price}{" "}
+                          </span>
+                          <span className='stext-105 cl3'>
+                            {" "}
+                            Quantity: {product.inventory}{" "}
                           </span>
                         </div>
                       </div>

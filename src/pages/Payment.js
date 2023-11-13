@@ -3,14 +3,16 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import productImg from "../assets/images/product.jpg";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUser } from "../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, updateCart } from "../redux/userSlice";
 import { notify } from "../utils/HelperFunctions";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
 const Payment = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [cart, setCart] = useState([]);
+  const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
   useEffect(() => {
@@ -74,6 +76,35 @@ const Payment = () => {
         return updatedCart;
       });
     }
+  };
+  const handlePayment = (e) => {
+    e.preventDefault();
+    const payment = {
+      totalPrice: totalPrice,
+      user: {
+        id: user.id,
+        email: user.email,
+      },
+    };
+    console.log(payment);
+    axios
+      .post("/public/addPayment", payment)
+      .then((res) => {
+        if (res.data !== "FOUND" && res.data !== "BAD_REQUEST") {
+          notify("Your payment has been registered.", toast, "success");
+        }
+        axios.put("/public/decreaseQuantityInProducts", cart).then(() => {
+          console.log("Updated");
+          axios.put(`/public/removeAllProductsFromCart/${user.id}`).then(() => {
+            setCart([]);
+            const updatedUser = { ...user, cart: [] };
+            dispatch(updateCart(updatedUser));
+          });
+        });
+      })
+      .catch(() => {
+        notify("error.", toast, "error");
+      });
   };
   return (
     <>
@@ -159,7 +190,10 @@ const Payment = () => {
                     <span className='mtext-110 cl2'> ${totalPrice} </span>
                   </div>
                 </div>
-                <button className='flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer'>
+                <button
+                  className='flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer'
+                  onClick={handlePayment}
+                >
                   Proceed to Checkout
                 </button>
               </div>

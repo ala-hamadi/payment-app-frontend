@@ -62,7 +62,12 @@ const Header = (props) => {
       setTotalPrice(total);
     }
   }, [user]);
-
+  const clearCart = () => {
+    axios.put(`/public/removeAllProductsFromCart/${user.id}`).then(() => {
+      const updatedUser = { ...user, cart: [] };
+      dispatch(updateCart(updatedUser));
+    });
+  };
   return (
     <>
       <ToastContainer />
@@ -132,8 +137,9 @@ const Header = (props) => {
                 <a
                   href='#'
                   className='flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10'
+                  onClick={clearCart}
                 >
-                  Check Out
+                  Clearn Cart
                 </a>
               </div>
             </div>
@@ -226,17 +232,22 @@ const Header = (props) => {
                   }}
                 >
                   {user ? (
-                    <li>
-                      <a
-                        href='#'
-                        onClick={() => {
-                          handleLogout(dispatch);
-                          window.location.href = "/";
-                        }}
-                      >
-                        Logout
-                      </a>
-                    </li>
+                    <>
+                      <li>
+                        <a href='#'>Hi, {user.username} 👋</a>
+                      </li>
+                      <li>
+                        <a
+                          href='#'
+                          onClick={() => {
+                            handleLogout(dispatch);
+                            window.location.href = "/";
+                          }}
+                        >
+                          Logout
+                        </a>
+                      </li>
+                    </>
                   ) : (
                     <li>
                       <Link to='/join-us'>Login</Link>
