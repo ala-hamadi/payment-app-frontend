@@ -45,7 +45,7 @@ const Search = () => {
     );
   };
   const handleAddToCart = (product) => {
-    if (user)
+    if (user && product.inventory > 0)
       axios
         .post(`/public/addProductToCart/${user.id}/${product.id}`)
         .then((res) => {
@@ -60,7 +60,7 @@ const Search = () => {
           } else
             notify("This product already added to your cart.", toast, "info");
         });
-    else
+    else if (!user)
       notify(
         "You should signin before you add product to the cart",
         toast,
@@ -121,42 +121,40 @@ const Search = () => {
           <div className='row isotope-grid'>
             {allProducts &&
               allProducts?.slice(0, seeMore)?.map((product, index) => {
-                return (
-                  <div
-                    className='col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women'
-                    key={index}
-                  >
-                    <div className='block2'>
-                      <div className='block2-pic hov-img0'>
-                        <img src={productImg} alt='IMG-PRODUCT' />
-                        <button
-                          className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
-                          onClick={() => handleAddToCart(product)}
-                        >
-                          Add to cart
-                        </button>
-                      </div>
-                      <div className='block2-txt flex-w flex-t p-t-14'>
-                        <div className='block2-txt-child1 flex-col-l'>
-                          <a
-                            href='product-detail.html'
-                            className='stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6'
+                if (product.inventory > 0) {
+                  return (
+                    <div
+                      className='col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women'
+                      key={index}
+                    >
+                      <div className='block2'>
+                        <div className='block2-pic hov-img0'>
+                          <img src={productImg} alt='IMG-PRODUCT' />
+                          <button
+                            className='block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1'
+                            onClick={() => handleAddToCart(product)}
                           >
-                            Name: {product.name}
-                          </a>
-                          <span className='stext-105 cl3'>
-                            {" "}
-                            Price: {product.price}{" "}
-                          </span>
-                          <span className='stext-105 cl3'>
-                            {" "}
-                            Quantity: {product.inventory}{" "}
-                          </span>
+                            Add to cart
+                          </button>
+                        </div>
+                        <div className='block2-txt flex-w flex-t p-t-14'>
+                          <div className='block2-txt-child1 flex-col-l'>
+                            <a
+                              href='product-detail.html'
+                              className='stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6'
+                            >
+                              {product.name}{" "}
+                            </a>
+                            <span className='stext-105 cl3'>
+                              {" "}
+                              Price: ${product.price}{" "}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               })}
           </div>
           <div className='flex-c-m flex-w w-full p-t-45'>
