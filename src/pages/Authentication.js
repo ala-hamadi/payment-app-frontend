@@ -155,6 +155,7 @@ const Authentication = () => {
         .then((res) => {
           if (res.data !== "NOT_FOUND" && res.data !== "BAD_REQUEST") {
             const authToken = `Bearer ${res.data.accessToken}`;
+            //Save token in local storage
             localStorage.setItem("authToken", authToken);
             axios.defaults.headers.common["Authorization"] = authToken;
             dispatch(

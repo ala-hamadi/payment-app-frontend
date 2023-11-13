@@ -1,3 +1,4 @@
+//Shows the popup
 export const notify = (message, toast, type) => {
   const toastMessageOptions = {
     position: "top-center",

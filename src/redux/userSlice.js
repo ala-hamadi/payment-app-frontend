@@ -17,7 +17,7 @@ export const userSlice = createSlice({
     },
   },
 });
-//signin & logout =>actions
+//signin & logout & updateCart =>actions
 export const { login, logout, updateCart } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;

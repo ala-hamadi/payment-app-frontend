@@ -16,7 +16,8 @@ axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
   const dispatch = useDispatch();
-
+  //if we still have the token, we should dispatch the login again to get the user's information in case the user refreshes the page.
+  //if we don't have the token, we just logout and remove the token from local storage
   useEffect(() => {
     const token = localStorage.authToken;
     if (token) {
