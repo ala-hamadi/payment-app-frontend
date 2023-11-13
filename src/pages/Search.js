@@ -25,6 +25,7 @@ const Search = () => {
   useEffect(() => {
     axios.get("/public/getAllProducts").then((res) => {
       setAllProducts(res.data);
+      // Called "Hack" because I use it to do a simple search
       setAllProductsHack(res.data);
     });
   }, []);
