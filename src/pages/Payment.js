@@ -106,6 +106,10 @@ const Payment = () => {
         notify("error.", toast, "error");
       });
   };
+  useEffect(() => {
+    if (!user) window.location.href = "/";
+  }, []);
+
   return (
     <>
       <ToastContainer />
@@ -168,7 +172,8 @@ const Payment = () => {
                                 </div>
                               </td>
                               <td className='column-5'>
-                                $ {product.price * product.quantity}
+                                ${" "}
+                                {(product.price * product.quantity).toFixed(2)}
                               </td>
                             </tr>
                           );
@@ -187,7 +192,10 @@ const Payment = () => {
                     <span className='mtext-101 cl2'> Total: </span>
                   </div>
                   <div className='size-209 p-t-1'>
-                    <span className='mtext-110 cl2'> ${totalPrice} </span>
+                    <span className='mtext-110 cl2'>
+                      {" "}
+                      ${totalPrice.toFixed(2)}{" "}
+                    </span>
                   </div>
                 </div>
                 <button
